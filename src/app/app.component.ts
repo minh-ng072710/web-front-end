@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Admin';
+  onSubmit(f) {
+    console.log("form na:" + f.form)
+  }
 }
