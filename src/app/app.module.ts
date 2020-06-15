@@ -1,20 +1,38 @@
+//form-module
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { environment } from '../environments/environment'
-import { AngularFireAuthModule } from '@angular/fire/auth'
-
+//app-routing-module
 import { AppRoutingModule } from './app-routing.module';
 
+//angular-lib
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
+//env-lib
+import { environment } from '../environments/environment';
+
+//child-component
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './Components/Blocks/Topbar/topbar.component';
 import { FooterComponent } from './Components/Blocks/footer/footer.component';
 import { LeftSidebarComponent } from './Components/Blocks/left-sidebar/left-sidebar.component';
 import { PageTitleComponent } from './Components/Pages/page-title/page-title.component';
-import { LoginComponent } from './Components/login/login.component';
+import { CategoryComponent } from './Components/Pages/category/category.component';
+import { MainloginComponent } from './Components/mainlogin/mainlogin.component';
+import { HomeComponent } from './Components/Pages/home/home.component';
+
+
+
+//all-service
+import { AuthenticationService } from './Services/authentication.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DashboardComponent } from './Components/dashboard/dashboard.component';
+import { IndexComponent } from './Components/index/index.component';
+
 
 
 @NgModule({
@@ -24,17 +42,24 @@ import { LoginComponent } from './Components/login/login.component';
     FooterComponent,
     LeftSidebarComponent,
     PageTitleComponent,
-    LoginComponent
+    CategoryComponent,
+    MainloginComponent,
+    HomeComponent,
+    DashboardComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
+    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    NgbModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

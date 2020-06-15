@@ -19,18 +19,18 @@
             <div class="card-body">
                 <h4 class="card-title">General Form</h4>
                 <h6 class="card-subtitle"> All with bootstrap element classies </h6>
-                <form class="mt-4" (submit)="onSubmit(formtest)" #formtest="ngForm">
+                <form class="mt-4" (submit)="onSubmit_New(formtest)" #formtest="ngForm">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input ngModel name="email" type="email" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="Enter email">
+                        <input [(ngModel)]="user.email" name="email" type="email" class="form-control"
+                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email
                             with anyone else.</small>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input ngModel name="password" type="password" class="form-control" id="exampleInputPassword1"
-                            placeholder="Password">
+                        <input [(ngModel)]="user.passwords" name="password" type="password" class="form-control"
+                            id="exampleInputPassword1" placeholder="Password">
                     </div>
                     <div class="custom-control custom-checkbox mr-sm-2 mb-3">
                         <input type="checkbox" class="custom-control-input" id="checkbox0" value="check">
@@ -38,7 +38,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
-                <div class="col-lg-7">
+                <div class="col-lg-7" [hidden]="!submitted">
+                    <h4>You submitted successfully!</h4>
+                    <button class="btn btn-success" (click)="newUser()">Add</button>
                 </div>
             </div>
         </div>
