@@ -6,14 +6,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //app-routing-module
 import { AppRoutingModule } from './app-routing.module';
 
+//env-lib
+import { environment } from '../environments/environment';
+
 //angular-lib
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { CookieService } from 'ngx-cookie-service';
+import { DataTablesModule } from 'angular-datatables';
+import { HttpClientModule } from '@angular/common/http';
 
-//env-lib
-import { environment } from '../environments/environment';
+
 
 //child-component
 import { AppComponent } from './app.component';
@@ -23,16 +28,17 @@ import { LeftSidebarComponent } from './Components/Blocks/left-sidebar/left-side
 import { PageTitleComponent } from './Components/Pages/page-title/page-title.component';
 import { CategoryComponent } from './Components/Pages/category/category.component';
 import { MainloginComponent } from './Components/mainlogin/mainlogin.component';
-import { HomeComponent } from './Components/Pages/home/home.component';
-
-
+import { HomeComponent } from './Components/home/home.component';
+import { DashboardComponent } from './Components/dashboard/dashboard.component';
+import { IndexComponent } from './Components/index/index.component';
 
 //all-service
 import { AuthenticationService } from './Services/authentication.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DashboardComponent } from './Components/dashboard/dashboard.component';
-import { IndexComponent } from './Components/index/index.component';
 
+
+import * as firebase from 'firebase';
+firebase.initializeApp(environment.firebase);
 
 
 @NgModule({
@@ -53,13 +59,15 @@ import { IndexComponent } from './Components/index/index.component';
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule
+    NgbModule,
+    DataTablesModule,
+    HttpClientModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,22 +8,31 @@ import { LoginComponent } from './Components/login/login.component';
 import { MainloginComponent } from './Components/mainlogin/mainlogin.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { IndexComponent } from './Components/index/index.component';
+import { AuthGuard } from './auth.guard';
 
 const routesConfig: Routes = [
+
   {
-    path: 'cate',
+    path: '',
+    component: MainloginComponent
+  },
+  {
+    canActivate: [AuthGuard],
+    path: 'home',
     component: IndexComponent,
+
     children: [
       {
-        path: 'dashboard',
+        path: 'category',
         component: CategoryComponent
       },
+
     ]
   },
-  { path: 'detail', component: DetailComponent },
-  { path: 'login', component: MainloginComponent },
+  // { path: 'detail', component: DetailComponent },
+  // { path: 'login', component: MainloginComponent },
 
-  { path: "**", component: MainloginComponent }
+
 
 ];
 

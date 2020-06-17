@@ -28,6 +28,7 @@ export class MainloginComponent implements OnInit {
   Login(username, password) {
     this.authenticationService.SignIn(username, password);
   }
+
   tryGoogleLogin() {
     this.authenticationService.doGoogleLogin()
       .then(res => {

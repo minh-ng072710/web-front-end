@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { FormsModule } from '@angular/forms';
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Category from 'src/app/Model/Category';
 import { Observable } from 'rxjs'
 import { User } from 'src/app/user';
-import { UserService } from 'src/app/user.service';
+import { CategoryService } from 'src/app/Services/Category.service';
+import { CookieService } from 'ngx-cookie-service';
+
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -13,32 +16,76 @@ import { UserService } from 'src/app/user.service';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-  title = "Angular Demo CRUD";
-  description = "Angular-demo-them-xoa-sua";
-  btn_value = "Add More Cate"
-  item_value = '';
-  email = '';
-  password = ''
+  submitted: boolean = false
+  Category: Category;
+  ngForm: FormGroup;
+  checksua: boolean = false
+  checktao: boolean = true
+  filterkey: []
   items: Observable<any[]>;
-  user: User = new User();
+  url = "";
+  images;
+  constructor(private fb: FormBuilder, public db: AngularFireDatabase, private categoryService: CategoryService, private cookies: CookieService, private http: HttpClient) {
+    this.createForm()
+  }
+  selectImage(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.images = file;
+    }
 
-  submitted = false;
-  constructor(public db: AngularFireDatabase, private userService: UserService) {
-    this.items = db.list('items').valueChanges()
   }
 
+  onSubmit() {
+    const formdata = new FormData();
+    formdata.append('file', this.images);
+
+
+  }
   ngOnInit(): void {
 
+    this.Category = new Category();
   }
-  newUser(): void {
-    this.submitted = false;
-    this.user = new User();
+  SelectFile(event) {
+    console.log(event.target.files)
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0])
+      reader.onload = (event: any) => {
+        this.url = event.target.result
+      }
+    }
+
   }
-  save() {
-    // this.user.key = this.makeid(15);
-    this.userService.creatUser(this.user);
-    this.user = new User();
+
+  createForm() {
+    this.ngForm = this.fb.group({
+      Name: ['', Validators.required],
+      Img_URL: ['', Validators.required],
+      Is_Active: ['', Validators.required],
+      Description: ['', Validators.required],
+    });
   }
+  get f() { return this.ngForm.controls; }
+
+
+  Create_Cat() {
+    this.submitted = true;
+    if (this.ngForm.invalid) {
+      return;
+    } else {
+      alert("ok")
+      const formdata = new FormData();
+      formdata.append('file', this.images);
+      this.http.post<any>("http://localhost:9000/api/create-category", formdata).subscribe(
+        (res) => console.log(res),
+        (err) => console.log(err)
+      )
+      console.log(this.Category);
+
+    }
+  }
+
   makeid(length) {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -48,19 +95,6 @@ export class CategoryComponent implements OnInit {
     }
     return result;
   }
-  onSubmit_New(fa) {
-    this.submitted = true;
-    alert("key nè: " + this.user.key)
 
-    console.log("key nè: " + this.user.key)
-    this.save();
-  }
-  onSubmit(f) {
-    console.log()
-    this.db.list('items').push({
-      email: f.form.value.email,
-      password: f.form.value.password
-    })
-  }
 
 }

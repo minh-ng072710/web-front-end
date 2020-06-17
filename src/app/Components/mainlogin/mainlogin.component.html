@@ -8,10 +8,10 @@
             <div class="row row-for-buton">
                 <div class="col-md-6">
                     <button [disabled]="angForm.pristine || angForm.invalid" type="submit"
-                        (click)="SignUp(username.value)" id="login-button">Login</button>
+                        (click)="Login(username.value,password.value)" id="login-button">Login</button>
                 </div>
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-danger btn-block" id="login-google-button"
+                    <button type="button" class="btn btn-rose btn-google" id="login-google-button"
                         (click)="tryGoogleLogin()">Login with
                         Google</button>
                 </div>
